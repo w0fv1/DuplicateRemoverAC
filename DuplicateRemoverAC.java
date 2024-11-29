@@ -3,115 +3,58 @@ import java.util.*;
 
 public class DuplicateRemoverAC {
 
-    public static void main(String[] args) {
-        runAllTests();
-    }
+    /**
+     * 测试用例类
+     */
+    static class TestCase {
+        String name;
+        String sentence1;
+        String sentence2;
+        int minSubstringLength;
+        String expectedOutput;
 
-    public static void runAllTests() {
-        testCase1();
-        testCase2();
-        testCase3();
-        testCase4();
-        testCase5();
-        testCase6();
-        testCase7();
-        testCase8();
-        testCase9();
-    }
-
-    // 测试案例1：普通重复
-    private static void testCase1() {
-        String sentence1 = "今天的天气真好，我们一起去公园散步吧。";
-        String sentence2 = "我也觉得今天的天气真好，我们一起去公园散步吧。";
-        String expected = "我也觉得";
-        int minSubstringLength = 2; // 设置最小子串长度
-        runTest(1, sentence1, sentence2, minSubstringLength, expected);
-    }
-
-    // 测试案例2：无重复
-    private static void testCase2() {
-        String sentence1 = "学习编程很有趣。";
-        String sentence2 = "学习编程很有趣，今天下午去打篮球。";
-        String expected = "，今天下午去打篮球。";
-        int minSubstringLength = 2;
-        runTest(2, sentence1, sentence2, minSubstringLength, expected);
-    }
-
-    // 测试案例3：完全重复
-    private static void testCase3() {
-        String sentence1 = "完全重复的内容。";
-        String sentence2 = "完全重复的内容。";
-        String expected = "";
-        int minSubstringLength = 2;
-        runTest(3, sentence1, sentence2, minSubstringLength, expected);
-    }
-
-    // 测试案例4：重复子串重叠
-    private static void testCase4() {
-        String sentence1 = "ababab";
-        String sentence2 = "ababababa";
-        String expected = ""; // 预期输出改为""
-        int minSubstringLength = 2;
-        runTest(4, sentence1, sentence2, minSubstringLength, expected);
-    }
-
-    // 测试案例5：特殊字符
-    private static void testCase5() {
-        String sentence1 = "咖啡馆 & 餐厅 @ 下午5点！";
-        String sentence2 = "欢迎光临咖啡馆 & 餐厅 @ 下午5点！享受您的时光。";
-        String expected = "欢迎光临享受您的时光。";
-        int minSubstringLength = 2;
-        runTest(5, sentence1, sentence2, minSubstringLength, expected);
-    }
-
-    // 测试案例6：不区分大小写
-    private static void testCase6() {
-        String sentence1 = "你好世界";
-        String sentence2 = "你好世界！欢迎来到编程世界。";
-        String expected = "！欢迎来到编程世界。";
-        int minSubstringLength = 4; // 为了匹配"你好世界"（长度为4）
-        runTest(6, sentence1, sentence2, minSubstringLength, expected);
-    }
-
-    // 测试案例7：sentence1为空
-    private static void testCase7() {
-        String sentence1 = "";
-        String sentence2 = "这句话中没有任何重复内容需要删除。";
-        String expected = "这句话中没有任何重复内容需要删除。";
-        int minSubstringLength = 2;
-        runTest(7, sentence1, sentence2, minSubstringLength, expected);
-    }
-
-    // 测试案例8：sentence2为空
-    private static void testCase8() {
-        String sentence1 = "任何内容";
-        String sentence2 = "";
-        String expected = "";
-        int minSubstringLength = 2;
-        runTest(8, sentence1, sentence2, minSubstringLength, expected);
-    }
-
-    // 测试案例9：多个不同重复
-    private static void testCase9() {
-        String sentence1 = "快速的棕色狐狸";
-        String sentence2 = "这只快速的棕色狐狸跳过了懒狗。另一只快速的棕色狐狸出现了。";
-        String expected = "这只跳过了懒狗。另一只出现了。";
-        int minSubstringLength = 2;
-        runTest(9, sentence1, sentence2, minSubstringLength, expected);
-    }
-
-
-
-    // 通用测试运行方法
-    private static void runTest(int testCaseNumber, String sentence1, String sentence2, int minSubstringLength, String expected) {
-        String result = removeDuplicates(sentence1, sentence2, minSubstringLength);
-        boolean passed = result.equals(expected);
-        System.out.println("测试案例 " + testCaseNumber + ": " + (passed ? "通过" : "失败"));
-        if (!passed) {
-            System.out.println("预期输出: \"" + expected + "\"");
-            System.out.println("实际输出: \"" + result + "\"");
+        public TestCase(String name, String sentence1, String sentence2, int minSubstringLength, String expectedOutput) {
+            this.name = name;
+            this.sentence1 = sentence1;
+            this.sentence2 = sentence2;
+            this.minSubstringLength = minSubstringLength;
+            this.expectedOutput = expectedOutput;
         }
-        System.out.println("-------------------------------------");
+    }
+
+    public static void main(String[] args) {
+        List<TestCase> testCases = List.of(
+                new TestCase("测试案例1：普通重复", "今天的天气真好，我们一起去公园散步吧。", "我也觉得今天的天气真好，我们一起去公园散步吧。", 2, "我也觉得"),
+                new TestCase("测试案例2：无重复", "学习编程很有趣。", "学习编程很有趣，今天下午去打篮球。", 2, "，今天下午去打篮球。"),
+                new TestCase("测试案例3：完全重复", "完全重复的内容。", "完全重复的内容。", 2, ""),
+                new TestCase("测试案例4：重复子串重叠", "ababab", "ababababa", 2, ""),
+                new TestCase("测试案例5：特殊字符", "咖啡馆 & 餐厅 @ 下午5点！", "欢迎光临咖啡馆 & 餐厅 @ 下午5点！享受您的时光。", 2, "欢迎光临享受您的时光。"),
+                new TestCase("测试案例6：不区分大小写", "你好世界", "你好世界！欢迎来到编程世界。", 4, "！欢迎来到编程世界。"),
+                new TestCase("测试案例7：sentence1为空", "", "这句话中没有任何重复内容需要删除。", 2, "这句话中没有任何重复内容需要删除。"),
+                new TestCase("测试案例8：sentence2为空", "任何内容", "", 2, ""),
+                new TestCase("测试案例9：多个不同重复", "快速的棕色狐狸", "这只快速的棕色狐狸跳过了懒狗。另一只快速的棕色狐狸出现了。", 2, "这只跳过了懒狗。另一只出现了。")
+        );
+        int totalTests = testCases.size();
+        int passedTests = 0;
+
+        // 使用for循环遍历所有测试用例并执行
+        for (TestCase testCase : testCases) {
+            System.out.println("==== " + testCase.name + " ====");
+            String result = removeDuplicates(testCase.sentence1, testCase.sentence2, testCase.minSubstringLength);
+            boolean passed = result.equals(testCase.expectedOutput);
+            System.out.println("预期输出: \n" + testCase.expectedOutput);
+            System.out.println("实际输出: \n" + result);
+            System.out.println("测试结果: " + (passed ? "通过" : "失败"));
+            System.out.println("==== " + testCase.name + " ====");
+            System.out.println();
+            System.out.println();
+            if (passed) {
+                passedTests++;
+            }
+        }
+        // 输出总体结果
+        System.out.println("测试完成！");
+        System.out.println("共 " + totalTests + " 个测试用例，其中通过 " + passedTests + " 个，失败 " + (totalTests - passedTests) + " 个。");
     }
 
     /**
