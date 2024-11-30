@@ -85,7 +85,7 @@ package dev.w0fv1.aievy;
 
 import java.util.*;
 
-public class DuplicateRemoverAC {
+public class ACDuplicateRemover {
 
     public static void main(String[] args) {
         runAllTests();

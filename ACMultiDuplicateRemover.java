@@ -3,7 +3,7 @@ import java.util.*;
 /**
  * 支持多个句子的重复检测和删除的类。
  */
-public class MultiDuplicateRemover {
+public class ACMultiDuplicateRemover {
 
     /**
      * 测试用例类

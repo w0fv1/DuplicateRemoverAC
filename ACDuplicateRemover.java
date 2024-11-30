@@ -1,7 +1,7 @@
 
 import java.util.*;
 
-public class DuplicateRemoverAC {
+public class ACDuplicateRemover {
 
     /**
      * 测试用例类
